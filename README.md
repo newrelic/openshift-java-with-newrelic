@@ -10,7 +10,7 @@ After getting the above, then proceed with the below
 1. Install a RHEL7 host
 2. Install Docker on that host
 3. Download/clone this git repo
-4. Build the container - `docker build -t wildfly/test-app .`
+4. Build the container - `docker build -t wildfly/rhel7_newrelic .`
 5. Once the container is built, you will need to run it and pass in some parameters:
 
 `docker run -d -p 8080:8080 -p 9990:9990 -e JAVA_OPTS="-javaagent:/opt/jboss/wildfly/newrelic/newrelic.jar -Dnewrelic.config.license_key=xxxxxxxxxxxx -Dnewrelic.config.app_name=Java Agent Test on Wildfly" wildfly/test-app /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0`

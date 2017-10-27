@@ -9,9 +9,13 @@ RUN yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --se
       --security --sec-severity=Important --sec-severity=Critical 
 
 LABEL name="wildfly/java-agent" \
+      maintainer="vvydier@newrelic.com" \
       vendor="NewRelic" \
-      version="WildFly_OSS" \
-      release="CurrentRelease" 
+      version="1.0" \
+      release="1" \
+      summary="Newrelic's Java agent starter image with WildFly" \
+      description="Newrelic's Jav agent starter image with WildFly" \
+      url="https://newrelic.com"
 
 #Atomic help file
 COPY help.1 /help.1
