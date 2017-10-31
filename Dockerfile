@@ -1,12 +1,16 @@
 FROM registry.access.redhat.com/rhel7.3:latest
 MAINTAINER Redhat
 
-# Execute system update
-RUN yum -y install java-1.8.0-openjdk.x86_64
-RUN yum -y install unzip wget curl tar && yum clean all
+### Add necessary Red Hat repos here
+RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
+### Add java-jdk and packages to download and install newrelic and wildfly
+    INSTALL_PKGS="java-1.8.0-openjdk.x86_64 unzip wget curl tar" && \
+    yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
+      --security --sec-severity=Important --sec-severity=Critical && \
+    yum -y install --disablerepo "*" --enablerepo ${REPOLIST} --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
 
-RUN yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
-      --security --sec-severity=Important --sec-severity=Critical 
+### clean yum cache
+    yum clean all
 
 LABEL name="wildfly/java-agent" \
       maintainer="vvydier@newrelic.com" \
