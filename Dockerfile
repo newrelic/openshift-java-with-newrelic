@@ -1,5 +1,5 @@
 FROM registry.access.redhat.com/rhel7.3:latest
-MAINTAINER Redhat
+MAINTAINER Vinod Vydier<vvydier@newrelic.com>
 
 ### Add necessary Red Hat repos here
 RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
@@ -21,7 +21,8 @@ LABEL name="wildfly/java-agent" \
       description="Newrelic's Jav agent starter image with WildFly" \
       url="https://newrelic.com"
 
-#Atomic help file
+### Atomic Help File - Write in Markdown, it will be converted to man format at build time.
+### https://github.com/projectatomic/container-best-practices/blob/master/creating/help.adoc
 COPY help.1 /help.1
 
 ### add licenses to this directory satisfy the cert scan for license
