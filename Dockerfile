@@ -1,14 +1,13 @@
-FROM registry.access.redhat.com/rhel7.3:latest
+FROM registry.access.redhat.com/rhel7.5:latest
 MAINTAINER Vinod Vydier<vvydier@newrelic.com>
 
 ### Add necessary Red Hat repos here
 RUN REPOLIST=rhel-7-server-rpms,rhel-7-server-optional-rpms \
 ### Add java-jdk and packages to download and install newrelic and wildfly
     INSTALL_PKGS="java-1.8.0-openjdk.x86_64 unzip wget curl tar" && \
-    yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical --setopt=tsflags=nodocs \
+    yum -y update-minimal --disablerepo "*" --enablerepo rhel-7-server-rpms --setopt=tsflags=nodocs \
+      --security --sec-severity=Important --sec-severity=Critical && \
     yum -y install --disablerepo "*" --enablerepo ${REPOLIST} --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
-
-### clean yum cache
     yum clean all
 
 LABEL name="wildfly/java-agent" \
@@ -41,7 +40,7 @@ WORKDIR /opt/jboss
 USER jboss
 
 # Set the WILDFLY_VERSION env variable
-ENV WILDFLY_VERSION 11.0.0.Final
+ENV WILDFLY_VERSION 12.0.0.Final
 
 # Add the WildFly distribution to /opt, and make wildfly the owner of the extracted tar content
 # Make sure the distribution is available from a well-known place
